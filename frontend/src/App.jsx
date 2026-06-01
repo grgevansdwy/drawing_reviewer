@@ -50,23 +50,31 @@ function App() {
       );
 
       // send to backend
-      const res = await fetch("http://localhost:8000/api/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ files: filePayloads }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/analyze`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ files: filePayloads }),
+        },
+      );
 
       // check for server error
       if (!res.ok) {
         let detail = `Server error ${res.status}`;
-        try { const err = await res.json(); detail = err.detail || detail; } catch {}
+        try {
+          const err = await res.json();
+          detail = err.detail || detail;
+        } catch {}
         throw new Error(detail);
       }
 
       // store report
       const data = await res.json();
       if (!data.phase_1_output || !data.phase_2_analysis) {
-        throw new Error("Server returned an unexpected response. Please try again.");
+        throw new Error(
+          "Server returned an unexpected response. Please try again.",
+        );
       }
       setReport(data);
     } catch (err) {

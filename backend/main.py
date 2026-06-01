@@ -9,17 +9,22 @@ import json
 
 app = FastAPI()
 
-# Allow your frontend server to talk to this
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:5174"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 # activate claude API
 load_dotenv()
 client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+
+# Allow your frontend server to talk to this
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "https://drawing-reviewer-delta.vercel.app",
+        "https://drawing-reviewer-1.onrender.com",
+    ],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # pydantic
 class FileItem(BaseModel):
