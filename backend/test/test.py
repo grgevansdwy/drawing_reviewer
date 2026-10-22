@@ -116,7 +116,7 @@ def test_real_drawing(image_path: str):
 # RUN ALL TESTS
 # ─────────────────────────────
 if __name__ == "__main__":
-    image_path = sys.argv[1] if len(sys.argv) > 1 else "test_drawing.png"
+    image_path = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), "drawing_test.png")
 
     print("=" * 50)
     print("DRAWING REVIEWER — BACKEND TESTS")
